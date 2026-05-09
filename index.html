@@ -74,6 +74,22 @@
         /* อนิเมชั่นสำหรับการสลับฟอร์ม */
         .animate-fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Styles สำหรับ Modal หน้าประวัติทีมงาน */
+        #profileModal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #profileModal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content-scale {
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #profileModal.active .modal-content-scale {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden selection:bg-stardust selection:text-void">
@@ -85,6 +101,46 @@
         <div>
             <h4 class="font-serif text-stardust font-bold text-sm">Warp Successful</h4>
             <p class="text-xs text-gray-300" id="toastText">Item digitized into your dimensional cart.</p>
+        </div>
+    </div>
+
+    <div id="profileModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeProfile()"></div>
+        <div class="modal-content-scale relative w-11/12 max-w-4xl mx-auto glass-panel border border-stardust/50 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(212,175,55,0.2)] bg-abyss/95 z-10 flex flex-col md:flex-row">
+            
+            <button onclick="closeProfile()" class="absolute top-4 right-4 text-gray-400 hover:text-white hover:rotate-90 transition duration-300 z-20">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <div class="w-full md:w-2/5 relative h-64 md:h-auto border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-abyss to-transparent z-10"></div>
+                <img id="modalImg" src="" alt="Profile Image" class="w-full h-full object-cover transition duration-700">
+            </div>
+            
+            <div class="w-full md:w-3/5 p-8 md:p-12 relative">
+                <div class="absolute top-0 right-0 p-4 opacity-5 text-stardust">
+                    <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4.5l6.5 13h-13L12 6.5z"/></svg>
+                </div>
+                
+                <p id="modalRole" class="text-stardust text-xs uppercase tracking-[0.3em] font-bold mb-2">Role Placeholder</p>
+                <h3 id="modalName" class="text-3xl md:text-4xl font-serif text-white mb-6">Name Placeholder</h3>
+                
+                <div class="space-y-4 text-gray-300 font-light leading-relaxed text-sm">
+                    <p id="modalBio1">Bio part 1...</p>
+                    <p id="modalBio2" class="text-gray-400">Bio part 2...</p>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">Clearance Level</p>
+                        <p id="modalClearance" class="text-white font-serif">Level 9</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest">Base Operation</p>
+                        <p id="modalBase" class="text-white font-serif">Sector 7G</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -300,7 +356,8 @@
                 <p class="text-gray-400">กลุ่มผู้รังสรรค์นวัตกรรมแห่งห้วงมิติ (Nexus Architects)</p>
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-12">
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(0)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="ณัฐธิดา อภิวงค์งาม.jpg" alt="ณัฐธิดา อภิวงค์งาม" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -309,7 +366,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Chief Architect</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(1)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="ฉัตร์ฐริกา พูลทรัพย์.jpg" alt="ฉัตร์ฐริกา พูลทรัพย์" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -318,7 +376,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Nexus Designer</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(2)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="มนทิราลัย สมเดช.jpg" alt="มนทิราลัย สมเดช" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -327,7 +386,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Visual Engineer</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(3)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="ดาหวัน โปรยกระโทก.jpg" alt="ดาหวัน โปรยกระโทก" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -336,7 +396,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Concept Specialist</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(4)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="ประกายทิพย์ น้อยสิงห์.jpg" alt="ประกายทิพย์ น้อยสิงห์" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -345,7 +406,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Systems Analyst</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(5)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="พรหมพร สว่างศรี.jpg" alt="พรหมพร สว่างศรี" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -354,7 +416,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Core Developer</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(6)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="จิดาภา อินทร์เมือง.jpg" alt="จิดาภา อินทร์เมือง" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -363,7 +426,8 @@
                         <p class="text-[10px] text-stardust uppercase tracking-widest opacity-70">Strategy Lead</p>
                     </div>
                 </div>
-                <div class="team-card text-center space-y-4 group">
+                
+                <div class="team-card text-center space-y-4 group cursor-pointer" onclick="openProfile(7)">
                     <div class="w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden border-2 border-white/10 shadow-2xl relative transition-all duration-500 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.3)]">
                         <img src="วรรณิษา เจ็กสูงเนิน.jpg" alt="วรรณิษา เจ็กสูงเนิน" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150/1A1C29/FFFFFF?text=Dev'">
                     </div>
@@ -384,7 +448,7 @@
     </footer>
 
     <script>
-        // 1. Gallery Data 
+        // 1. Gallery Data คงเดิม
         const galleryData = [
             { id: 1, image: "4.jpg", name: "หญ้าอุดมสมบูรณ์", en: "The Verdant Pasture", flavor: "รสชาเขียว", pro: "22g", cal: "110" },
             { id: 2, image: "3.jpg", name: "ทุ่งรวงทอง", en: "Golden Harvest", flavor: "รสข้าวโอ๊ต", pro: "20g", cal: "130" },
@@ -422,7 +486,6 @@
                 </div>`;
         });
 
-        // 2. Add to Cart Animation
         function triggerWarp(itemName) {
             const portal = document.getElementById('warpPortal');
             portal.classList.remove('warp-active');
@@ -436,7 +499,6 @@
             setTimeout(() => { toast.classList.add('translate-x-full', 'opacity-0'); }, 4000);
         }
 
-        // 3. Checkout Form Logic
         const radioTimemachine = document.querySelector('input[value="timemachine"]');
         const radioAnywhereDoor = document.querySelector('input[value="anywheredoor"]');
         const timemachineInput = document.getElementById('timemachineInput');
@@ -455,7 +517,6 @@
         radioTimemachine.addEventListener('change', updateFormUI);
         radioAnywhereDoor.addEventListener('change', updateFormUI);
 
-        // 4. Webhook / Form Submit
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
@@ -464,29 +525,113 @@
             submitBtn.innerText = 'TRANSMITTING TO NEXUS...';
             submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
 
-            const deliveryType = document.querySelector('input[name="deliveryMethod"]:checked').value;
-            const targetDestination = deliveryType === 'timemachine' 
-                                    ? document.getElementById('eraSelect').value 
-                                    : document.getElementById('locationInput').value;
-
-            const payload = {
-                customer_name: document.getElementById('customerName').value,
-                delivery_protocol: deliveryType,
-                destination: targetDestination,
-                timestamp: new Date().toISOString()
-            };
-
-            console.log('--- กำลังส่งคำสั่งซื้อข้ามมิติ... ---');
-            console.log('Payload Data:', payload);
-
             setTimeout(() => {
-                alert('คำสั่งซื้อถูกส่งเข้าสู่กระแสเวลาเรียบร้อยแล้ว! (Simulation Mode: ตรวจสอบ Payload ได้ที่ Console)');
+                alert('คำสั่งซื้อถูกส่งเข้าสู่กระแสเวลาเรียบร้อยแล้ว!');
                 this.reset();
                 updateFormUI(); // Reset UI กลับไปค่าเริ่มต้น
                 submitBtn.innerText = originalText;
                 submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             }, 1500);
         });
+
+        // 2. ส่วนระบบ Modal ประวัติทีมงาน (คงเดิม)
+        const teamProfiles = [
+            {
+                name: "ณัฐธิดา อภิวงค์งาม",
+                role: "Chief Architect",
+                img: "ณัฐธิดา อภิวงค์งาม.jpg",
+                bio1: "จบการศึกษาจากสถาบันวิศวกรรมอวกาศแห่งกาแล็กซี (Galactic Institute of Space Engineering) ปัจจุบันดำรงตำแหน่ง CEO ของบริษัทขนส่งข้ามดวงดาวและห้วงเวลา",
+                bio2: "เธอคือผู้บุกเบิกการประยุกต์ใช้เทคโนโลยีประตูมิติสำหรับวงการอาหาร เพื่อแก้ไขปัญหาความล่าช้าในการส่งเสบียงไปยังอาณานิคมขอบจักรวาล",
+                clearance: "Level 10 (Omega)",
+                base: "Alpha Centauri Prime"
+            },
+            {
+                name: "ฉัตร์ฐริกา พูลทรัพย์",
+                role: "Nexus Designer",
+                img: "ฉัตร์ฐริกา พูลทรัพย์.jpg",
+                bio1: "อดีตสถาปนิกออกแบบโครงสร้างสถานีอวกาศ ผู้หลงใหลในศิลปะการทำอาหาร จึงผันตัวมาออกแบบ 'เส้นทางของรสชาติข้ามมิติ'",
+                bio2: "เชี่ยวชาญการจัดวางโครงสร้างคาร์โบไฮเดรตและโปรตีนในสภาพไร้น้ำหนัก ทำให้ลูกชิ้นยังคงความเหนียวนุ่มแม้จะเดินทางผ่านรูหนอน (Wormhole)",
+                clearance: "Level 8",
+                base: "Orbital Station 9"
+            },
+            {
+                name: "มนทิราลัย สมเดช",
+                role: "Visual Engineer",
+                img: "มนทิราลัย สมเดช.jpg",
+                bio1: "นักเรียนทุนจากวิทยาลัยศิลปกรรมโฮโลแกรม (Holographic Arts Academy) ควบคุมการมองเห็นและแสงตกกระทบของลูกชิ้นทุกเม็ด",
+                bio2: "เป็นผู้พัฒนาระบบจำลองภาพ 16 มิติ ทำให้ผู้บริโภคสามารถสัมผัสได้ถึงกลิ่นและรสชาติผ่านการมองเห็น ก่อนที่สินค้าจะถูกวาร์ปไปถึงมือ",
+                clearance: "Level 7",
+                base: "Earth (Neo-Bangkok)"
+            },
+            {
+                name: "ดาหวัน โปรยกระโทก",
+                role: "Concept Specialist",
+                img: "ดาหวัน โปรยกระโทก.jpg",
+                bio1: "นักประวัติศาสตร์อาหารและนักโบราณคดีมิติ ผู้เดินทางข้ามเวลาไปศึกษาวิถีการกินของมนุษยชาติในยุคต่างๆ",
+                bio2: "เธอคือผู้ค้นพบสูตรลับโปรตีนจากยุคอียิปต์โบราณและยุคหิน แล้วนำมาตีความใหม่ผสมผสานกับวิทยาการเวย์โปรตีนในรูปแบบลูกชิ้น",
+                clearance: "Level 8",
+                base: "Time Vault, Sector 4"
+            },
+            {
+                name: "ประกายทิพย์ น้อยสิงห์",
+                role: "Systems Analyst",
+                img: "ประกายทิพย์ น้อยสิงห์.jpg",
+                bio1: "อัจฉริยะด้านควอนตัมคอมพิวติ้ง หน้าที่หลักคือการควบคุมความเสถียรของเครื่อง Time Machine",
+                bio2: "คำนวณและป้องกันไม่ให้ลูกชิ้นเกิดการเสื่อมสลาย (Entropy) หรือบูดเสียระหว่างการขนส่งข้ามเวลาที่ผันผวน",
+                clearance: "Level 9",
+                base: "Quantum Core Alpha"
+            },
+            {
+                name: "พรหมพร สว่างศรี",
+                role: "Core Developer",
+                img: "พรหมพร สว่างศรี.jpg",
+                bio1: "วิศวกรซอฟต์แวร์ผู้เขียนโปรแกรม 'พิกัดรสชาติ' ระดับเอนทิตี (Entity-level Taste Routing)",
+                bio2: "ด้วยโค้ดของเธอ มั่นใจได้ว่าประตูไปไหนก็ได้ (Anywhere Door) จะส่งลูกชิ้นพรีเมียมไปถึงลิ้นของผู้รับอย่างแม่นยำระดับมิลลิเมตร",
+                clearance: "Level 9",
+                base: "Cyberspace Nexus"
+            },
+            {
+                name: "จิดาภา อินทร์เมือง",
+                role: "Strategy Lead",
+                img: "จิดาภา อินทร์เมือง.jpg",
+                bio1: "นักยุทธศาสตร์การค้าข้ามจักรวาล (Intergalactic Trade Strategist) ผู้เจรจาการค้ากับสิ่งมีชีวิตต่างดาว",
+                bio2: "ผู้วางแผนการตลาดและวิเคราะห์แนวโน้มการบริโภคของสิ่งมีชีวิตในกาแล็กซีทางช้างเผือก ทำให้แบรนด์เป็นที่รู้จักกว้างขวาง",
+                clearance: "Level 8",
+                base: "Interstellar Market"
+            },
+            {
+                name: "วรรณิษา เจ็กสูงเนิน",
+                role: "Dimensional Specialist",
+                img: "วรรณิษา เจ็กสูงเนิน.jpg",
+                bio1: "ผู้เชี่ยวชาญด้านฟิสิกส์มิติที่ 5 (5th Dimensional Physics) หนึ่งในไม่กี่คนที่เข้าใจโครงสร้างของการพับมิติ",
+                bio2: "เธอเป็นคนเดียวที่สามารถคำนวณและปรับลดสเกลของประตู Anywhere Door ให้มีขนาดพอดีกับกล่องลูกชิ้นไซส์ S, M, L ได้อย่างไร้ที่ติ",
+                clearance: "Level 9",
+                base: "Dimension X"
+            }
+        ];
+
+        function openProfile(index) {
+            const profile = teamProfiles[index];
+            document.getElementById('modalImg').src = profile.img;
+            // ใส่ placeholder หากรูปโหลดไม่ขึ้น
+            document.getElementById('modalImg').onerror = function() {
+                this.src = 'https://via.placeholder.com/400x600/1A1C29/D4AF37?text=Classified';
+            };
+            document.getElementById('modalRole').innerText = profile.role;
+            document.getElementById('modalName').innerText = profile.name;
+            document.getElementById('modalBio1').innerText = profile.bio1;
+            document.getElementById('modalBio2').innerText = profile.bio2;
+            document.getElementById('modalClearance').innerText = profile.clearance;
+            document.getElementById('modalBase').innerText = profile.base;
+            
+            document.getElementById('profileModal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // ป้องกันการเลื่อนหน้าเว็บข้างหลัง
+        }
+
+        function closeProfile() {
+            document.getElementById('profileModal').classList.remove('active');
+            document.body.style.overflow = 'auto'; // คืนค่าการเลื่อนหน้าเว็บ
+        }
     </script>
 </body>
 </html>
